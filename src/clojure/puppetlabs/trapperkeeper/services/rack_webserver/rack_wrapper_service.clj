@@ -19,9 +19,9 @@
 
   (add-rack-handler [this rack-path context-path]
                     (let [base-path (core/get-base-path (resource rack-path))]
-                      (add-context-handler base-path context-path
+                      (add-context-handler base-path context-path { :context-listeners
                                            [(reify ServletContextListener
                                               (contextInitialized [this event]
                                                 (core/initialize-rack-servlet-context (.getServletContext event) base-path))
                                               (contextDestroyed [this event]))
-                                            (RackServletContextListener.)]))))
+                                            (RackServletContextListener.)]}))))

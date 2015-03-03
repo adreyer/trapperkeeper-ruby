@@ -1,5 +1,6 @@
-(def tk-version "0.3.8")
-(def ks-version "0.5.3")
+(def tk-version "1.1.0")
+(def ks-version "1.0.0")
+(def tk-jetty9-version  "1.1.1")
 
 (defproject puppetlabs/trapperkeeper-ruby "0.2.0-SNAPSHOT"
   :description "We are trapperkeeper.  We are one."
@@ -11,13 +12,15 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [puppetlabs/trapperkeeper ~tk-version]
                  [puppetlabs/kitchensink ~ks-version :exclusions [joda-time]]
+                 ;; [puppetlabs/trapperkeeper-webserver-jetty9 ~tk-jetty9-version]
+                 [puppetlabs/trapperkeeper-webserver-jetty9  "1.1.1"]
 
                  ;; we are excluding some of the transitive jnr dependencies because they use
                  ;; version ranges, and lein doesn't like that, and we don't need them.
                  ;; we are excluding joni because jruby 1.7.9 has a dependency on a SNAPSHOT
                  ;; version of joni that doesn't exist anymore, and there is a released version
                  ;; available now.
-                 [org.jruby/jruby "1.7.9" :exclusions [com.github.jnr/jffi com.github.jnr/jnr-x86asm org.jruby.joni/joni]]
+                 [org.jruby/jruby "1.7.9" :exclusions [com.github.jnr/jffi com.github.jnr/jnr-x86asm org.jruby.joni/joni joda-time]]
                  ;; here we add back in the dependency on the non-SNAPSHOT version of joni.  We
                  ;; exclude jcodings because jruby already has a dependency on a newer version of it.
                  [org.jruby.joni/joni "2.1.1" :exclusions [org.jruby.jcodings/jcodings]]
@@ -32,7 +35,7 @@
   :profiles {:dev {:test-paths ["test-resources"]
                    :java-source-paths ["test/java"]
                    :resource-paths ["test/ruby"]
-                   :dependencies [[puppetlabs/trapperkeeper-webserver-jetty9 "0.3.5"]
+                   :dependencies [[puppetlabs/trapperkeeper-webserver-jetty9 "1.1.1"]
                                   [puppetlabs/trapperkeeper ~tk-version :classifier "test"]]}
              :test {:dependencies [[puppetlabs/kitchensink ~ks-version :classifier "test"]]}}
 
